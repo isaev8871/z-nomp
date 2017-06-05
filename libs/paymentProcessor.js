@@ -417,16 +417,21 @@ function SetupForPool(logger, poolOptions, setupFinished){
         }, shielding_interval);
     }
     
-    // stats caching every 58 seconds
+    // network stats caching every 58 seconds
     var stats_interval = 58 * 1000;
     var statsInterval = setInterval(function() {
         // update network stats using coin daemon
         cacheNetworkStats();
-        // update market stats using coinmarketcap
-        if (getMarketStats === true) {
-            cacheMarketStats();
-        }
     }, stats_interval);
+    
+    // market stats caching every 5 minutes
+    if (getMarketStats === true) {
+        var market_stats_interval = 300 * 1000;
+        var marketStatsInterval = setInterval(function() {
+            // update market stats using coinmarketcap
+            cacheMarketStats();
+        }, market_stats_interval);
+    }
 
     // check operation statuses every 57 seconds
     var opid_interval =  57 * 1000;
